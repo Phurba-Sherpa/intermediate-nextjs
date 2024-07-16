@@ -1,7 +1,8 @@
 'use server'
+
 import { cookies } from 'next/headers'
-import { signin, signup } from '@/utils/authTools'
 import { z } from 'zod'
+import { signin, signup } from '@/utils/authTools'
 import { redirect } from 'next/navigation'
 import { COOKIE_NAME } from '@/utils/constants'
 
@@ -21,8 +22,9 @@ export const registerUser = async (prevState: any, formData: FormData) => {
     cookies().set(COOKIE_NAME, token)
   } catch (e) {
     console.error(e)
-    return { message: 'Failed to sign you up' }
+    return { message: 'Failed to signup!' }
   }
+
   redirect('/dashboard')
 }
 
@@ -37,7 +39,7 @@ export const signinUser = async (prevState: any, formData: FormData) => {
     cookies().set(COOKIE_NAME, token)
   } catch (e) {
     console.error(e)
-    return { message: 'Failed to sign you in' }
+    return { message: 'Sign in failed' }
   }
   redirect('/dashboard')
 }
