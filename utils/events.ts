@@ -1,7 +1,7 @@
 import 'server-only'
 import { db } from '@/db/db'
 import { and, asc, count, desc, eq, ne, not } from 'drizzle-orm'
-import { events, rsvps } from '@/db/schema'
+import { events, rsvps, users } from '@/db/schema'
 import { delay } from './delay'
 import { memoize } from 'nextjs-better-unstable-cache'
 
@@ -34,3 +34,16 @@ export const getEvents = memoize(
     logid: 'dashboard:events',
   }
 )
+
+export const getEvent = memoize(async (userId, eventId) => {
+  await delay()
+  return db.query.events.findFirst({
+    where: and(eq(events.id, eventId), eq(events.createdById, userId))
+  })
+}, {
+  persist: true,
+  revalidateTags: (userId, eventId) => ['events', eventId],
+  suppressWarnings: true,
+  log: ['datacache', 'verbose'],
+  logid: 'events',
+})

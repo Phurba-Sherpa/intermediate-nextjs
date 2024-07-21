@@ -26,7 +26,7 @@ const Layout = ({
           </div>
         </div>
       ) : (
-        <div>children</div>
+        <div>{children}</div>
       )}
     </Shell>
   )
